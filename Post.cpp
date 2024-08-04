@@ -5,10 +5,11 @@ using namespace std;
 //default constructor
 Post::Post(){}
 //parameterized constructor
-Post::Post(int postID, string postType, string postContent, string timeStamp, string date, string weekdayType,
+Post::Post(string platform, int postID, string postType, string postContent, string timeStamp, string date, string weekdayType,
            string time, string timePeriod, int likes, int comments, int shares, int impressions, int reach,
            int engagementRate, int audienceAge, string ageGroup, string audienceGender, string location,
            string continent, string audienceInterests, string sentiment){
+    this->platform = platform;
     this->postID = postID;
     this->postType = postType;
     this->postContent = postContent;

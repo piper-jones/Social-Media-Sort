@@ -1,10 +1,13 @@
 #pragma once
 #include <iostream>
+#include <vector>
 using namespace std;
+
 
 
 class Post {
 public:
+    string platform;
     int postID;
     string postType;
     string postContent;
@@ -32,10 +35,13 @@ public:
     //default constructor
     Post();
     //parameterized constructor
-    Post(int postID, string postType, string postContent, string timeStamp, string date, string weekdayType,
+    Post(string platform, int postID, string postType, string postContent, string timeStamp, string date, string weekdayType,
          string time, string timePeriod, int likes, int comments, int shares, int impressions, int reach,
          int engagementRate, int audienceAge, string ageGroup, string audienceGender, string location,
          string continent, string audienceInterests, string sentiment);
 };
 
+class Sort {
+    vector<Post> vector;
+};
 
