@@ -1,0 +1,3 @@
+C:/Users/piper/CLionProjects/Social-Media-Sort/cmake-build-debug/CMakeFiles/Social_Media_Sort.dir
+C:/Users/piper/CLionProjects/Social-Media-Sort/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/piper/CLionProjects/Social-Media-Sort/cmake-build-debug/CMakeFiles/rebuild_cache.dir
