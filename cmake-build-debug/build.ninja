@@ -61,6 +61,18 @@ build CMakeFiles/Social_Media_Sort.dir/Post.cpp.obj: CXX_COMPILER__Social_Media_
   OBJECT_DIR = CMakeFiles\Social_Media_Sort.dir
   OBJECT_FILE_DIR = CMakeFiles\Social_Media_Sort.dir
 
+build CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj: CXX_COMPILER__Social_Media_Sort_unscanned_Debug C$:/Users/piper/CLionProjects/Social-Media-Sort/gui.cpp || cmake_object_order_depends_target_Social_Media_Sort
+  DEP_FILE = CMakeFiles\Social_Media_Sort.dir\gui.cpp.obj.d
+  FLAGS = -g -std=gnu++1z -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Social_Media_Sort.dir
+  OBJECT_FILE_DIR = CMakeFiles\Social_Media_Sort.dir
+
+build CMakeFiles/Social_Media_Sort.dir/read.cpp.obj: CXX_COMPILER__Social_Media_Sort_unscanned_Debug C$:/Users/piper/CLionProjects/Social-Media-Sort/read.cpp || cmake_object_order_depends_target_Social_Media_Sort
+  DEP_FILE = CMakeFiles\Social_Media_Sort.dir\read.cpp.obj.d
+  FLAGS = -g -std=gnu++1z -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Social_Media_Sort.dir
+  OBJECT_FILE_DIR = CMakeFiles\Social_Media_Sort.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Social_Media_Sort
@@ -69,7 +81,7 @@ build CMakeFiles/Social_Media_Sort.dir/Post.cpp.obj: CXX_COMPILER__Social_Media_
 #############################################
 # Link the executable Social_Media_Sort.exe
 
-build Social_Media_Sort.exe: CXX_EXECUTABLE_LINKER__Social_Media_Sort_Debug CMakeFiles/Social_Media_Sort.dir/main.cpp.obj CMakeFiles/Social_Media_Sort.dir/Post.cpp.obj
+build Social_Media_Sort.exe: CXX_EXECUTABLE_LINKER__Social_Media_Sort_Debug CMakeFiles/Social_Media_Sort.dir/main.cpp.obj CMakeFiles/Social_Media_Sort.dir/Post.cpp.obj CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj CMakeFiles/Social_Media_Sort.dir/read.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Social_Media_Sort.dir

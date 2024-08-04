@@ -5,4 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Social_Media_Sort main.cpp
         Post.cpp
-        Post.h)
+        Post.h
+        gui.cpp
+        read.cpp)
