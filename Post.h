@@ -8,7 +8,7 @@ using namespace std;
 class Post {
 public:
     string platform;
-    int postID;
+    string postID;
     string postType;
     string postContent;
     string timeStamp;
@@ -19,7 +19,7 @@ public:
     int shares;
     int impressions;
     int reach;
-    int engagementRate;
+    float engagementRate;
     int audienceAge;
     string audienceGender;
     string location;
@@ -31,9 +31,9 @@ public:
     //default constructor
     Post();
     //parameterized constructor
-    Post(string platform, int postID, string postType, string postContent,
+    Post(string platform, string postID, string postType, string postContent,
          string timeStamp, float time, int likes, int comments, int shares,
-         int impressions, int reach, int engagementRate, int audienceAge,
+         int impressions, int reach, float engagementRate, int audienceAge,
          string audienceGender, string location, string audienceInterests, string sentiment);
 };
 

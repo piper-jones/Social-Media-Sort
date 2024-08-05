@@ -5,9 +5,9 @@ using namespace std;
 //default constructor
 Post::Post(){}
 //parameterized constructor
-Post::Post(string platform, int postID, string postType, string postContent,
+Post::Post(string platform, string postID, string postType, string postContent,
            string timeStamp, float time, int likes, int comments, int shares,
-           int impressions, int reach, int engagementRate, int audienceAge,
+           int impressions, int reach, float engagementRate, int audienceAge,
            string audienceGender, string location, string audienceInterests, string sentiment){
     this->platform = platform;
     this->postID = postID;
@@ -25,4 +25,5 @@ Post::Post(string platform, int postID, string postType, string postContent,
     this->location = location;
     this->audienceInterests = audienceInterests;
     this->sentiment = sentiment;
+    this->likes = likes;
 }

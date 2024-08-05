@@ -7,4 +7,5 @@ add_executable(Social_Media_Sort main.cpp
         Post.cpp
         Post.h
         gui.cpp
-        read.cpp)
+        read.cpp
+        read.h)
