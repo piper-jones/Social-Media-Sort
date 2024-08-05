@@ -1,6 +1,8 @@
-//
-// Created by piper on 8/4/2024.
-//
+#include <iostream>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+using namespace sf;
+using namespace std;
 
 
 //Filters plan

@@ -144,6 +144,30 @@
 			"isCMake" : true,
 			"isExternal" : true,
 			"path" : "C:/Program Files/JetBrains/CLion 2023.2/bin/cmake/win/x64/share/cmake-3.26/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/SFML/lib/cmake/SFML/SFMLConfigVersion.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/SFML/lib/cmake/SFML/SFMLConfig.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/SFML/lib/cmake/SFML/SFMLStaticTargets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/SFML/lib/cmake/SFML/SFMLStaticTargets-debug.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/SFML/lib/cmake/SFML/SFMLStaticTargets-release.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/SFML/lib/cmake/SFML/SFMLConfigDependencies.cmake"
 		}
 	],
 	"kind" : "cmakeFiles",
