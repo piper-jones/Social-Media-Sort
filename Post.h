@@ -36,14 +36,14 @@ public:
 };
 
 class Sort {
-    vector<Post> vector;
 public:
-    void mergeSort(std::vector<float>& arr);
-    void quickSort(std::vector<float>& arr);
+    void sortBy(const string& category, vector<Post>& vector, bool useMerge);
 private:
-    void mergeHelp(std::vector<float>& arr, int left, int right);
-    void merge(std::vector<float>& arr, int left, int mid, int right);
-    void quickHelp(std::vector<float>& arr, int low, int high);
-    float partition(std::vector<float>& arr, int low, int high);
+    void mergeSort(vector<Post>& arr, function<bool(const Post&, const Post&)> comp);
+    void quickSort(vector<Post>& arr, function<bool(const Post&, const Post&)> comp);
+    void mergeHelp(vector<Post>& arr, int left, int right, function<bool(const Post&, const Post&)> comp);
+    void merge(vector<Post>& arr, int left, int mid, int right, function<bool(const Post&, const Post&)> comp);
+    void quickHelp(vector<Post>& arr, int low, int high, function<bool(const Post&, const Post&)> comp);
+    int partition(vector<Post>& arr, int low, int high, function<bool(const Post&, const Post&)> comp);
 };
 
