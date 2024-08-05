@@ -1,12 +1,14 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <map>
 using namespace std;
 
 
 
 class Post {
 public:
+    //Comparison attributes
     string platform;
     string postID;
     string postType;
@@ -28,6 +30,9 @@ public:
     string sentiment;
     //skipped influence ID here
 
+    //Functional attributes
+    bool display = true;
+
     //default constructor
     Post();
     //parameterized constructor
@@ -38,6 +43,26 @@ public:
 };
 
 class Sort {
+public:
     vector<Post> vector;
+
+    //filter types
+    bool Platforms = false;
+    bool Gender = false;
+    bool Sentiment = false;
+    //filter subcategories
+    map<string, bool> platformOptions = {};
+    map<string, bool> genderOptions = {};
+    map<string, bool> sentimentOptions = {};
+    //filter functions
+    void filterOn(string category, string choice);
+    void filterHandling();
+
+    //Searchable ones- consider implementing later:
+    //Post Content, Audience Interest, Location
+
+    //sorting stuff
+    bool mergeSort = true;
+    void sortBy(string category);
 };
 

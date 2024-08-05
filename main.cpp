@@ -1,11 +1,11 @@
 #include <iostream>
-#include "Post.h"
-#include "read.h"
+#include "gui.h"
+
 
 int main() {
-    vector<Post> data;
-    readFile(data);
+    gui mediaMirror;
+    mediaMirror.run();
 
-    cout<< data.size();
+
     return 0;
 }
