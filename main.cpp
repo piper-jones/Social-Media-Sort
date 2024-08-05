@@ -1,6 +1,10 @@
 #include <iostream>
+#include "gui.h"
+
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    gui mediaMirror;
+    mediaMirror.run();
+
     return 0;
 }

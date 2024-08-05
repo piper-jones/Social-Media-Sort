@@ -1,0 +1,22 @@
+# ninja log v5
+36	1598	7445300569678176	CMakeFiles/Social_Media_Sort.dir/Post.cpp.obj	2afb54fa7e002961
+45	1602	7445300569688168	CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj	b2e9b3d804e33945
+41	1603	7445300569702464	CMakeFiles/Social_Media_Sort.dir/read.cpp.obj	9c84bdf57fdbfa0
+1	1604	7445300569746381	CMakeFiles/Social_Media_Sort.dir/main.cpp.obj	da0221f2ec1ae87a
+1605	2610	7445300579735182	Social_Media_Sort.exe	a74e6697bfb9f137
+3	413	7445302867129262	CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj	b2e9b3d804e33945
+414	1078	7445302873690765	Social_Media_Sort.exe	a74e6697bfb9f137
+3	410	7445304138875309	CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj	b2e9b3d804e33945
+413	1053	7445304145228979	Social_Media_Sort.exe	a74e6697bfb9f137
+3	516	7445304840507378	CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj	b2e9b3d804e33945
+517	1263	7445304847917650	Social_Media_Sort.exe	a74e6697bfb9f137
+3	412	7445305482262200	CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj	b2e9b3d804e33945
+413	1077	7445305488822529	Social_Media_Sort.exe	a74e6697bfb9f137
+6	704	7445305905924202	CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj	b2e9b3d804e33945
+706	1597	7445305914809786	Social_Media_Sort.exe	a74e6697bfb9f137
+3	400	7445306321035920	CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj	b2e9b3d804e33945
+400	1150	7445306328440516	Social_Media_Sort.exe	a74e6697bfb9f137
+4	417	7445306454725191	CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj	b2e9b3d804e33945
+418	1209	7445306462535000	Social_Media_Sort.exe	a74e6697bfb9f137
+3	403	7445306650792206	CMakeFiles/Social_Media_Sort.dir/gui.cpp.obj	b2e9b3d804e33945
+404	1108	7445306657694170	Social_Media_Sort.exe	a74e6697bfb9f137

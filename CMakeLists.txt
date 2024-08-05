@@ -7,7 +7,8 @@ add_executable(Social_Media_Sort main.cpp
         Post.cpp
         Post.h
         gui.cpp
-        read.cpp)
+        read.cpp
+        gui.h)
 
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)
