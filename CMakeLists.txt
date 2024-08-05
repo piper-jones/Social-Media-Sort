@@ -8,6 +8,7 @@ add_executable(Social_Media_Sort main.cpp
         Post.h
         gui.cpp
         read.cpp
+        read.h
         gui.h)
 
 set(SFML_STATIC_LIBRARIES TRUE)
@@ -16,5 +17,6 @@ find_package(SFML COMPONENTS system window graphics audio network REQUIRED)
 
 include_directories(c:/SFML/include/SFML)
 target_link_libraries(Social_Media_Sort sfml-system sfml-window sfml-graphics sfml-audio)
+
 
 
