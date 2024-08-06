@@ -10,7 +10,7 @@ using namespace std;
 #include <cctype>
 
 struct Response {
-
+    std::string category;
 };
 
 gui::gui(): window(VideoMode(1800, 1200), "Media Mirror") {
@@ -86,22 +86,22 @@ void gui::drawBoxes() {
 
 void gui::optionContent() {
     Merge.setSize(sf::Vector2f(175,50));
-    Merge.setPosition((width/12),(height/1.1));
+    Merge.setPosition((25),(800));
     Merge.setFillColor(Color::Green);
 
     Enter1.setString("MergeSort");
     Enter1.setFont(font);
-    Enter1.setPosition((130),(height/1.1));
+    Enter1.setPosition((60),(800));
     Enter1.setFillColor(Color::Black);
     Enter1.setCharacterSize(20);
 
     Quick.setSize(sf::Vector2f(175,50));
-    Quick.setPosition((width/12),(650));
+    Quick.setPosition((25),860);
     Quick.setFillColor(Color::Green);
 
     Enter2.setString("QuickSort");
     Enter2.setFont(font);
-    Enter2.setPosition((130),(650));
+    Enter2.setPosition((60),(860));
     Enter2.setFillColor(Color::Black);
     Enter2.setCharacterSize(20);
 }
@@ -110,20 +110,20 @@ void gui::run(){
     //Set up Dropdown
     std::vector<std::string> options = { "Likes", "Comments", "Shares","Impressions", "Reach", "Engagement", "Age" };
 
-    Dropdown sorting((width/12),(height/4), 175, 50,options,font, "Sort by:");
+    Dropdown sorting((25),(height/4), 175, 50,options,font, "Sort by:");
 
     std::vector<std::string> option2 = {"Any" ,"Linkedin", "Instagram", "Twitter", "Facebook"};
-    Dropdown Platform((width/12),(height/2.5),175,50,option2,font,"Platform:");
+    Dropdown Platform((25),(height/2.5),175,50,option2,font,"Platform:");
 
     std::vector<std::string> option3 = {"Any", "Male", "Female"};
-    Dropdown Gender((width/12),(height/2.1), 175,50, option3,font , "Gender:");
+    Dropdown Gender((25),(480+ 60), 175,50, option3,font , "Gender:");
 
     std::vector<std::string> option4 = {"Any", "Positive", "Negative", "Neutral"};
-    Dropdown Opinion((width/12),((height/2.1) + 60), 175,50, option4,font , "Opinion:");
+    Dropdown Opinion((25),(480 + 120), 175,50, option4,font , "Opinion:");
 
     optionContent();
 
-    Dropdown sorting((25),(150), 175, 50,options,font);
+
 
     std::vector<std::string> words;
     words.reserve(100);
@@ -156,7 +156,7 @@ void gui::run(){
 
                 }
             }
-            if(Merge.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            if(Quick.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 if (event.type == sf::Event::MouseButtonPressed) {
 
                 }
