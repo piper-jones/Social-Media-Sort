@@ -9,6 +9,7 @@ using namespace std;
 class Post {
 public:
     //Comparison attributes
+    //Comparison attributes
     string platform;
     string postID;
     string postType;
@@ -29,9 +30,7 @@ public:
     //skipped campaign ID here
     string sentiment;
     //skipped influence ID here
-
-    //Functional attributes
-    bool display = true;
+    bool display;
 
     //default constructor
     Post();

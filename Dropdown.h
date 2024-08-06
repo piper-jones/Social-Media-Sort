@@ -15,7 +15,7 @@ using namespace std;
 
 class Dropdown {
 public:
-    Dropdown(float x, float y, float width, float height, const std::vector<std::string>& options, sf::Font &font)
+    Dropdown(float x, float y, float width, float height, const std::vector<std::string>& options, sf::Font &font, std::string label)
             : isOpen(false), selectedIndex(-1) {
         // Setup main button
         mainButton.setPosition(x, y);
@@ -25,7 +25,7 @@ public:
         mainButton.setOutlineColor(sf::Color::Black);
 
         // Setup text for main button
-        text.setString("Filter By");
+        text.setString(label);
         text.setFont(font);
         text.setCharacterSize(15);
         text.setFillColor(sf::Color::Black);
@@ -83,6 +83,7 @@ public:
                 }
             }
         }
+
     }
 
     int getSelectedIndex() const {
