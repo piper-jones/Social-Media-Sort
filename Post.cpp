@@ -28,8 +28,10 @@ Post::Post(string platform, string postID, string postType, string postContent,
     this->sentiment = sentiment;
     this->likes = likes;
 
+
     this->display = false;
 }
+
 
 
 

@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include "Dropdown.h"
+#include "dataBox.h"
 using namespace sf;
 using namespace std;
 #include <cctype>
@@ -12,9 +13,9 @@ struct Response {
 
 };
 
-gui::gui(): window(VideoMode(1200, 800), "Media Mirror") {
-    width = 1200;
-    height = 800;
+gui::gui(): window(VideoMode(1800, 1200), "Media Mirror") {
+    width = 1800;
+    height = 1200;
     loadFont();
     run(); }
 
@@ -32,6 +33,10 @@ void gui::setText(){
     mainTitle.setFillColor(Color::White);
     mainTitle.setStyle(Text::Bold | Text::Underlined);
 
+    FloatRect textRect = mainTitle.getLocalBounds();
+    mainTitle.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+    mainTitle.setPosition(Vector2f(width / 2.0f, 75.0f));
+
     dataTitle.setFont(font);
     dataTitle.setString("Data:");
     dataTitle.setCharacterSize(20);
@@ -44,7 +49,6 @@ void gui::setText(){
     statsTitle.setFillColor(Color::Yellow);
     statsTitle.setStyle(Text::Bold);
 
-    positionText(mainTitle, width, height, 350);
     positionText(dataTitle, width, height, 75);
     positionText(statsTitle, width, height, 45);
 }
@@ -61,8 +65,11 @@ void gui::drawText(){
 };
 
 void gui::setOption() {
-    Options.setSize(sf::Vector2f(175,400));
-    Options.setPosition((width/12),(height/5));
+
+
+    Options.setSize(sf::Vector2f(175,550));
+    Options.setPosition((25),(height/5));
+
 
     Options.setFillColor(Color::White);
 }
@@ -102,6 +109,7 @@ void gui::optionContent() {
 void gui::run(){
     //Set up Dropdown
     std::vector<std::string> options = { "Likes", "Comments", "Shares","Impressions", "Reach", "Engagement", "Age" };
+
     Dropdown sorting((width/12),(height/4), 175, 50,options,font, "Sort by:");
 
     std::vector<std::string> option2 = {"Any" ,"Linkedin", "Instagram", "Twitter", "Facebook"};
@@ -115,6 +123,19 @@ void gui::run(){
 
     optionContent();
 
+    Dropdown sorting((25),(150), 175, 50,options,font);
+
+    std::vector<std::string> words;
+    words.reserve(100);
+    for (int i = 1; i <= 100; ++i) {
+        words.push_back("Word" + std::to_string(i));
+    }
+    // Assuming 'allWords' is your original large vector of strings
+    //vector<string> topWords(allWords.begin(), allWords.begin() + min(100, static_cast<int>(allWords.size())));
+    dataBox rowsOfData(225, 150, 750, 1000, words, font);
+    //make other boxes also 750 to get equal margins
+
+
     while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
@@ -124,6 +145,7 @@ void gui::run(){
             //Drop Box Detection
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
             sorting.update(mousePos, event);
+
             Platform.update(mousePos,event);
             Gender.update(mousePos,event);
             Opinion.update(mousePos,event);
@@ -163,7 +185,11 @@ void gui::run(){
                     Enter = true;
                 }
             }*/
+
+
+            rowsOfData.handleEvent(event);  // Pass events to dataBox for scroll handling
         }
+
             window.clear(Color::Blue);
             setText();
             setOption();
@@ -175,6 +201,10 @@ void gui::run(){
             Platform.draw(window);
             sorting.draw(window);
 
+
+
+
+            rowsOfData.draw(window);
 
             window.display();
     }

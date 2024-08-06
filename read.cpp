@@ -38,7 +38,7 @@ vector<Post> readFile(vector<Post> &data) {
         // Parse each cell in the line
         // Variables to store data for each column
         std::string platform;
-        std::string post_id;
+        string post_id;
         std::string post_type;
         std::string post_content;
         std::string post_timestamp;
@@ -58,7 +58,8 @@ vector<Post> readFile(vector<Post> &data) {
 
         // Reading in the Columns
         std::getline(ss, platform, ',');
-        std::getline(ss, cell, ',');
+        std::getline(ss, cell, ','); post_id = cell;
+
         std::getline(ss, post_type, ',');
         std::getline(ss, post_content, ',');
         std::getline(ss, post_timestamp, ',');
