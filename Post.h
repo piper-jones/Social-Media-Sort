@@ -10,19 +10,19 @@ class Post {
 public:
     //Comparison attributes
     string platform;
-    int postID;
+    string postID;
     string postType;
     string postContent;
     string timeStamp;
     //Using time stamp to assign time:
     float time;
-    float likes;
-    float comments;
-    float shares;
-    float impressions;
-    float reach;
+    int likes;
+    int comments;
+    int shares;
+    int impressions;
+    int reach;
     float engagementRate;
-    float audienceAge;
+    int audienceAge;
     string audienceGender;
     string location;
     string audienceInterests;
@@ -36,9 +36,9 @@ public:
     //default constructor
     Post();
     //parameterized constructor
-    Post(string platform, int postID, string postType, string postContent,
-         string timeStamp, float time, float likes, float comments, float shares,
-         float impressions, float reach, float engagementRate, float audienceAge,
+    Post(string platform, string postID, string postType, string postContent,
+         string timeStamp, float time, int likes, int comments, int shares,
+         int impressions, int reach, float engagementRate, int audienceAge,
          string audienceGender, string location, string audienceInterests, string sentiment);
 };
 

@@ -4,10 +4,11 @@ using namespace std;
 
 //Post default constructor
 Post::Post(){}
-//Post parameterized constructor
-Post::Post(string platform, int postID, string postType, string postContent,
-           string timeStamp, float time, float likes, float comments, float shares,
-           float impressions, float reach, float engagementRate, float audienceAge,
+
+//parameterized constructor
+Post::Post(string platform, string postID, string postType, string postContent,
+           string timeStamp, float time, int likes, int comments, int shares,
+           int impressions, int reach, float engagementRate, int audienceAge,
            string audienceGender, string location, string audienceInterests, string sentiment){
     this->platform = platform;
     this->postID = postID;
@@ -25,6 +26,9 @@ Post::Post(string platform, int postID, string postType, string postContent,
     this->location = location;
     this->audienceInterests = audienceInterests;
     this->sentiment = sentiment;
+    this->likes = likes;
+}
+
 }
 
 
@@ -124,3 +128,4 @@ void Sort::sortBy(string category) {
  * how to run the attribute into the parameter line:
  * sort(vectorName, &Post::attributeName)
  */
+
