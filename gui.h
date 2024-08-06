@@ -24,4 +24,11 @@ private:
     void setText();
     void positionText(Text &text, float x, float y, float scale);
     void drawText();
+
+    RectangleShape Options;
+    void setOption();
+    void drawBoxes();
+    void optionContent();
+
+
 };

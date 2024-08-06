@@ -2,6 +2,8 @@
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include "Dropdown.h"
 using namespace sf;
 using namespace std;
 #include <cctype>
@@ -23,7 +25,7 @@ void gui::loadFont(){
 void gui::setText(){
     mainTitle.setFont(font);
     mainTitle.setString("Media Mirror");
-    mainTitle.setCharacterSize(24);
+    mainTitle.setCharacterSize(40);
     mainTitle.setFillColor(Color::White);
     mainTitle.setStyle(Text::Bold | Text::Underlined);
 
@@ -39,7 +41,7 @@ void gui::setText(){
     statsTitle.setFillColor(Color::Yellow);
     statsTitle.setStyle(Text::Bold);
 
-    positionText(mainTitle, width, height, 150);
+    positionText(mainTitle, width, height, 350);
     positionText(dataTitle, width, height, 75);
     positionText(statsTitle, width, height, 45);
 }
@@ -55,13 +57,35 @@ void gui::drawText(){
     window.draw(statsTitle);
 };
 
+void gui::setOption() {
+    Options.setSize(sf::Vector2f(175,550));
+    Options.setPosition((width/12),(height/5));
+
+    Options.setFillColor(Color::White);
+}
+
+void gui::optionContent() {
+
+}
+
+void gui::drawBoxes() {
+    window.draw(Options);
+}
+
+
+
 void gui::run(){
+    std::vector<std::string> options = { "Likes", "Comments", "Shares","Impressions", "Reach", "Engagement", "Age" };
+    Dropdown sorting((width/12),(height/4), 175, 50,options,font);
+
     while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
             //press X button in top right-closes program, does not lead to game window
             if (event.type == Event::Closed) {
                 window.close(); }
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            sorting.update(mousePos, event);
             /*if (event.type == Event::TextEntered) {
                 redraw = true;
                 // Only letters
@@ -86,16 +110,17 @@ void gui::run(){
                 }
             }*/
         }
-        if (redraw) {
             window.clear(Color::Blue);
             setText();
+            setOption();
             drawText();
+            drawBoxes();
+            sorting.draw(window);
             window.display();
-            redraw = false;
-        }
-
     }
 }
+
+
 
 //Filters plan
 /*

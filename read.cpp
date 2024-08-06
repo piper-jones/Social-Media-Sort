@@ -9,7 +9,7 @@
 using namespace std;
 
 vector<Post> readFile(vector<Post> &data) {
-    string file_path = "./social_media_engagement_data.csv";
+    string file_path = "../social_media_engagement_data.csv";
 
     // Open the file
     std::ifstream file(file_path);
@@ -18,7 +18,7 @@ vector<Post> readFile(vector<Post> &data) {
         std::cerr << "Failed to open the file." << std::endl;
         return data;
     }
-
+    
     std::string line;
 
     // Read the header line (optional, if you want to skip headers)
