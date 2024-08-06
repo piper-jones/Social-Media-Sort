@@ -84,6 +84,6 @@ vector<Post> readFile(vector<Post> &data) {
             continue;
         }
     }
-
+    
     return data;
 }
