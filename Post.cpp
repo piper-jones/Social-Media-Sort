@@ -29,7 +29,7 @@ Post::Post(string platform, string postID, string postType, string postContent,
     this->likes = likes;
 
 
-    this->display = false;
+    this->display = true;
 }
 
 
@@ -117,12 +117,12 @@ void Sort::sortBy(const string &category, std::vector<Post> &vector, bool useMer
             return a.reach < b.reach;
         };
     }
-    else if (category == "Engagement Rate") {
+    else if (category == "Engagement") {
         comp = [](const Post& a, const Post& b) {
             return a.engagementRate < b.engagementRate;
         };
     }
-    else if (category == "Audience Age") {
+    else if (category == "Age") {
         comp = [](const Post& a, const Post& b) {
             return a.audienceAge < b.audienceAge;
         };
@@ -153,34 +153,42 @@ void Sort::mergeHelp(std::vector<Post> &arr, int left, int right, function<bool(
 
 // merges the divided arrays in sorted order
 void Sort::merge(std::vector<Post> &arr, int left, int mid, int right, function<bool(const Post&, const Post&)> comp) {
-    int sub1 = mid - left + 1;
-    int sub2 = right - mid;
-    std::vector<Post> L(sub1), R(sub2);
-
-    for (int i = 0; i < sub1; i++) {
-        L[i] = arr[left + i];
+    if (!comp) {
+        std::cerr << "Comparison function is not initialized!" << std::endl;
+        return;
     }
-    for (int j = 0; j < sub2; j++) {
-        R[j] = arr[mid + 1 + j];
-    }
+    else {
 
-    int i = 0, j = 0, k = left;
-    while (i < sub1 && j < sub2) {
-        if (comp(L[i], R[j])) {
+        int sub1 = mid - left + 1;
+        int sub2 = right - mid;
+        std::vector<Post> L(sub1), R(sub2);
+
+        for (int i = 0; i < sub1; i++) {
+            L[i] = arr[left + i];
+        }
+        for (int j = 0; j < sub2; j++) {
+            R[j] = arr[mid + 1 + j];
+        }
+
+        int i = 0, j = 0, k = left;
+        while (i < sub1 && j < sub2) {
+            if (comp(L[i], R[j])) {
+                arr[k++] = L[i++];
+            }
+            else {
+                arr[k++] = R[j++];
+            }
+        }
+
+        while (i < sub1) {
             arr[k++] = L[i++];
         }
-        else {
+
+        while (j < sub2) {
             arr[k++] = R[j++];
         }
     }
 
-    while (i < sub1) {
-        arr[k++] = L[i++];
-    }
-
-    while (j < sub2) {
-        arr[k++] = R[j++];
-    }
 }
 
 // takes in the array to be sorted and the compared data

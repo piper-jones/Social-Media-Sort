@@ -7,8 +7,7 @@
 
 
 int main() {
-    std::vector<Post> data;
-    readFile(data);
+
 
     gui mediaMirror;
     mediaMirror.run();

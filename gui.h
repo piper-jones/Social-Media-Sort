@@ -34,5 +34,7 @@ private:
     void drawBoxes();
     void optionContent();
 
+    RectangleShape BestBox;
+    Text Top3;
 
 };

@@ -5,6 +5,8 @@
 #include <SFML/Graphics/Color.hpp>
 #include "Dropdown.h"
 #include "dataBox.h"
+#include "Post.h"
+#include "read.h"
 using namespace sf;
 using namespace std;
 #include <cctype>
@@ -136,6 +138,12 @@ void gui::run(){
     //make other boxes also 750 to get equal margins
 
 
+    //Initialize Sort and data To be run
+
+    Sort filters;
+    readFile(filters.vector);
+
+
     while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
@@ -152,13 +160,31 @@ void gui::run(){
 
             //Submission
             if(Merge.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-                if (event.type == sf::Event::MouseButtonPressed) {
-
+                if (event.type == sf::Event::MouseButtonPressed && sorting.getSelectedIndex() >= 0) {
+                    if(Platform.getSelectedIndex() >= 1) {
+                    filters.filterOn("Platform", option2[Platform.getSelectedIndex()]);
+                    }
+                    if(Gender.getSelectedIndex() >= 1) {
+                        filters.filterOn("Gender", option3[Gender.getSelectedIndex()]);
+                    }
+                    if(Opinion.getSelectedIndex() >= 1) {
+                        filters.filterOn("Sentiment", option4[Opinion.getSelectedIndex()]);
+                    }
+                    filters.sortBy(options[sorting.getSelectedIndex()], filters.vector, true);
                 }
             }
             if(Quick.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-                if (event.type == sf::Event::MouseButtonPressed) {
-
+                if (event.type == sf::Event::MouseButtonPressed  && sorting.getSelectedIndex() >= 1) {
+                    if(Platform.getSelectedIndex() >= 1) {
+                        filters.filterOn("Platform", option2[Platform.getSelectedIndex()]);
+                    }
+                    if(Gender.getSelectedIndex() >= 1) {
+                        filters.filterOn("Gender", option3[Gender.getSelectedIndex()]);
+                    }
+                    if(Opinion.getSelectedIndex() >= 1) {
+                        filters.filterOn("Sentiment", option4[Opinion.getSelectedIndex()]);
+                    }
+                    filters.sortBy(options[sorting.getSelectedIndex()], filters.vector, false);
                 }
             }
 
