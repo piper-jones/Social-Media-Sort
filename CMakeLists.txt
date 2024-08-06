@@ -9,7 +9,9 @@ add_executable(Social_Media_Sort main.cpp
         gui.cpp
         read.cpp
         read.h
-        gui.h)
+        gui.h
+        dataBox.h
+        statsBox.h)
 
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)

@@ -29,7 +29,6 @@ Post::Post(string platform, string postID, string postType, string postContent,
     this->likes = likes;
 }
 
-}
 
 
 void Sort::filterOn(string category, string choice){
