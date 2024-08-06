@@ -19,6 +19,8 @@ private:
     Text dataTitle;
     Text statsTitle;
     Text topResultstitle;
+    Text Enter1;
+    Text Enter2;
     Font font;
     void loadFont();
     void setText();
@@ -26,6 +28,8 @@ private:
     void drawText();
 
     RectangleShape Options;
+    RectangleShape Merge;
+    RectangleShape Quick;
     void setOption();
     void drawBoxes();
     void optionContent();

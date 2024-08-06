@@ -11,25 +11,29 @@ using namespace std;
 vector<Post> readFile(vector<Post> &data) {
     string file_path = "../social_media_engagement_data.csv";
 
+
     // Open the file
-    std::ifstream file(file_path);
+    ifstream file(file_path);
 
     if (!file.is_open()) {
-        std::cerr << "Failed to open the file." << std::endl;
+        cerr << "Failed to open the file: " << file_path << endl;
         return data;
     }
-    
+
     std::string line;
 
-    // Read the header line (optional, if you want to skip headers)
-    std::getline(file, line);
-    std::cout << "Headers: " << line << std::endl;
+
+    // Read the header line (optional)
+    if (!getline(file, line)) {
+        cerr << "Failed to read the header line." << endl;
+        return data;
+    }
+
 
     // Read each line of the file
-    while (std::getline(file, line)) {
+    while (getline(file, line)) {
         std::stringstream ss(line);
         std::string cell;
-
 
         // Parse each cell in the line
         // Variables to store data for each column
@@ -55,6 +59,7 @@ vector<Post> readFile(vector<Post> &data) {
         // Reading in the Columns
         std::getline(ss, platform, ',');
         std::getline(ss, cell, ','); post_id = cell;
+
         std::getline(ss, post_type, ',');
         std::getline(ss, post_content, ',');
         std::getline(ss, post_timestamp, ',');
@@ -75,8 +80,6 @@ vector<Post> readFile(vector<Post> &data) {
         string temp = post_timestamp;
         temp.erase(std::remove(temp.begin(), temp.end(), ':'), temp.end());
 
-
         data.push_back(Post(platform,post_id,post_type,post_content, post_timestamp, stof(temp),likes, comments,shares,impressions,reach,engagement_rate,audience_age, audience_gender,audience_location,audience_interests,sentiment));
     }
 }
-

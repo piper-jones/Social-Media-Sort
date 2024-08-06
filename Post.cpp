@@ -27,7 +27,12 @@ Post::Post(string platform, string postID, string postType, string postContent,
     this->audienceInterests = audienceInterests;
     this->sentiment = sentiment;
     this->likes = likes;
+
+
+    this->display = false;
 }
+
+
 
 
 
@@ -51,6 +56,7 @@ void Sort::filterOn(string category, string choice){
         }
     }
 }
+
 void Sort::filterHandling(){
     //set all display true
     for (Post post: vector)

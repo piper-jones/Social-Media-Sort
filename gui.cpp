@@ -9,6 +9,9 @@ using namespace sf;
 using namespace std;
 #include <cctype>
 
+struct Response {
+
+};
 
 gui::gui(): window(VideoMode(1800, 1200), "Media Mirror") {
     width = 1800;
@@ -62,24 +65,64 @@ void gui::drawText(){
 };
 
 void gui::setOption() {
+
+
     Options.setSize(sf::Vector2f(175,550));
     Options.setPosition((25),(height/5));
+
 
     Options.setFillColor(Color::White);
 }
 
-void gui::optionContent() {
 
-}
 
 void gui::drawBoxes() {
     window.draw(Options);
+    window.draw(Merge);
+    window.draw(Enter1);
+    window.draw(Quick);
+    window.draw(Enter2);
 }
 
+void gui::optionContent() {
+    Merge.setSize(sf::Vector2f(175,50));
+    Merge.setPosition((width/12),(height/1.1));
+    Merge.setFillColor(Color::Green);
 
+    Enter1.setString("MergeSort");
+    Enter1.setFont(font);
+    Enter1.setPosition((130),(height/1.1));
+    Enter1.setFillColor(Color::Black);
+    Enter1.setCharacterSize(20);
+
+    Quick.setSize(sf::Vector2f(175,50));
+    Quick.setPosition((width/12),(650));
+    Quick.setFillColor(Color::Green);
+
+    Enter2.setString("QuickSort");
+    Enter2.setFont(font);
+    Enter2.setPosition((130),(650));
+    Enter2.setFillColor(Color::Black);
+    Enter2.setCharacterSize(20);
+}
 
 void gui::run(){
+    //Set up Dropdown
     std::vector<std::string> options = { "Likes", "Comments", "Shares","Impressions", "Reach", "Engagement", "Age" };
+
+    Dropdown sorting((width/12),(height/4), 175, 50,options,font, "Sort by:");
+
+    std::vector<std::string> option2 = {"Any" ,"Linkedin", "Instagram", "Twitter", "Facebook"};
+    Dropdown Platform((width/12),(height/2.5),175,50,option2,font,"Platform:");
+
+    std::vector<std::string> option3 = {"Any", "Male", "Female"};
+    Dropdown Gender((width/12),(height/2.1), 175,50, option3,font , "Gender:");
+
+    std::vector<std::string> option4 = {"Any", "Positive", "Negative", "Neutral"};
+    Dropdown Opinion((width/12),((height/2.1) + 60), 175,50, option4,font , "Opinion:");
+
+    optionContent();
+
     Dropdown sorting((25),(150), 175, 50,options,font);
 
     std::vector<std::string> words;
@@ -92,14 +135,57 @@ void gui::run(){
     dataBox rowsOfData(225, 150, 750, 1000, words, font);
     //make other boxes also 750 to get equal margins
 
+
     while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
             //press X button in top right-closes program, does not lead to game window
             if (event.type == Event::Closed) {
                 window.close(); }
+            //Drop Box Detection
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
             sorting.update(mousePos, event);
+
+            Platform.update(mousePos,event);
+            Gender.update(mousePos,event);
+            Opinion.update(mousePos,event);
+
+            //Submission
+            if(Merge.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                if (event.type == sf::Event::MouseButtonPressed) {
+
+                }
+            }
+            if(Merge.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                if (event.type == sf::Event::MouseButtonPressed) {
+
+                }
+            }
+
+            /*if (event.type == Event::TextEntered) {
+                redraw = true;
+                // Only letters
+                if (65 <= event.text.unicode && event.text.unicode <= 90
+                    || 97 <= event.text.unicode && event.text.unicode <= 120) {
+                    if (displayName.empty()) { //changes first to uppercase
+                        displayName += toupper(static_cast<char>(event.text.unicode)); }
+                    else if (!displayName.empty() && displayName.size() < 10) { //changes the rest to lowercase
+                        displayName += tolower(static_cast<char>(event.text.unicode)); }
+                }
+                    // Backspace
+                else if (event.text.unicode == 8) {
+                    if (!displayName.empty()) {
+                        displayName.pop_back();} }
+                    //Enter key-continues to Game window
+                else if (event.text.unicode == 13) {
+                    finalUserName = displayName;
+                    if (!displayName.empty()) {
+                        welcome.close();
+                    }
+                    Enter = true;
+                }
+            }*/
+
 
             rowsOfData.handleEvent(event);  // Pass events to dataBox for scroll handling
         }
@@ -109,11 +195,22 @@ void gui::run(){
             setOption();
             drawText();
             drawBoxes();
+
+            Opinion.draw(window);
+            Gender.draw(window);
+            Platform.draw(window);
             sorting.draw(window);
+
+
+
+
             rowsOfData.draw(window);
+
             window.display();
     }
 }
+
+
 
 
 
