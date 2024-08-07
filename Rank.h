@@ -137,63 +137,65 @@ public:
             }
         }
 
+        if(filteredPosts.size() > 0) {
+            if (category == "Time") {
 
-        if (category == "Time") {
+            } else if (category == "Likes") {
+                First.setString(filteredPosts[filteredPosts.size()-1].platform + " Likes: "  +  to_string(filteredPosts[filteredPosts.size()-1].likes));
+                Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Likes: " + to_string(filteredPosts[filteredPosts.size()-2].likes));
+                Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Likes: "  + to_string(filteredPosts[filteredPosts.size()-3].likes));
 
-        } else if (category == "Likes") {
-            First.setString(filteredPosts[filteredPosts.size()-1].platform + " Likes: "  +  to_string(filteredPosts[filteredPosts.size()-1].likes));
-            Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Likes: " + to_string(filteredPosts[filteredPosts.size()-2].likes));
-            Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Likes: "  + to_string(filteredPosts[filteredPosts.size()-3].likes));
+            } else if (category == "Comments") {
+                First.setString(filteredPosts[filteredPosts.size()-1].platform + " Comments:" + to_string(filteredPosts[filteredPosts.size()-1].comments));
+                Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Comments: "  +to_string(filteredPosts[filteredPosts.size()-2].comments));
+                Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Comments: "  +to_string(filteredPosts[filteredPosts.size()-3].comments));
 
-        } else if (category == "Comments") {
-            First.setString(filteredPosts[filteredPosts.size()-1].platform + " Comments:" + to_string(filteredPosts[filteredPosts.size()-1].comments));
-            Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Comments: "  +to_string(filteredPosts[filteredPosts.size()-2].comments));
-            Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Comments: "  +to_string(filteredPosts[filteredPosts.size()-3].comments));
-
-        } else if (category == "Shares") {
-            First.setString(filteredPosts[filteredPosts.size()-1].platform + " Shares: "   +to_string(filteredPosts[filteredPosts.size()-1].shares));
-            Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Shares: " +to_string(filteredPosts[filteredPosts.size()-2].shares));
-            Third.setString(filteredPosts[filteredPosts.size()-3].platform +" Shares: "   +to_string(filteredPosts[filteredPosts.size()-3].shares));
-
-
-        } else if (category == "Impressions") {
-            First.setString(filteredPosts[filteredPosts.size()-1].platform + " Impressions: " +to_string(filteredPosts[filteredPosts.size()-1].impressions));
-            Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Impressions: "  +to_string(filteredPosts[filteredPosts.size()-2].impressions));
-            Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Impressions: "  +to_string(filteredPosts[filteredPosts.size()-3].impressions));
+            } else if (category == "Shares") {
+                First.setString(filteredPosts[filteredPosts.size()-1].platform + " Shares: "   +to_string(filteredPosts[filteredPosts.size()-1].shares));
+                Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Shares: " +to_string(filteredPosts[filteredPosts.size()-2].shares));
+                Third.setString(filteredPosts[filteredPosts.size()-3].platform +" Shares: "   +to_string(filteredPosts[filteredPosts.size()-3].shares));
 
 
-        } else if (category == "Reach") {
-            First.setString(filteredPosts[filteredPosts.size()-1].platform + " Reach: "  +to_string(filteredPosts[filteredPosts.size()-1].impressions));
-            Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Reach: " + to_string(filteredPosts[filteredPosts.size()-2].impressions));
-            Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Reach: " +to_string(filteredPosts[filteredPosts.size()-3].impressions));
+            } else if (category == "Impressions") {
+                First.setString(filteredPosts[filteredPosts.size()-1].platform + " Impressions: " +to_string(filteredPosts[filteredPosts.size()-1].impressions));
+                Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Impressions: "  +to_string(filteredPosts[filteredPosts.size()-2].impressions));
+                Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Impressions: "  +to_string(filteredPosts[filteredPosts.size()-3].impressions));
 
 
-        } else if (category == "Engagement") {
-            First.setString(filteredPosts[filteredPosts.size()-1].platform +  " Engagement: "  +to_string(filteredPosts[filteredPosts.size()-1].engagementRate));
-            Second.setString(filteredPosts[filteredPosts.size()-2].platform+" Engagement: " +to_string(filteredPosts[filteredPosts.size()-2].engagementRate));
-            Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Engagement: " +to_string(filteredPosts[filteredPosts.size()-3].engagementRate));
+            } else if (category == "Reach") {
+                First.setString(filteredPosts[filteredPosts.size()-1].platform + " Reach: "  +to_string(filteredPosts[filteredPosts.size()-1].impressions));
+                Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Reach: " + to_string(filteredPosts[filteredPosts.size()-2].impressions));
+                Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Reach: " +to_string(filteredPosts[filteredPosts.size()-3].impressions));
 
 
-        } else if (category == "Age") {
-            First.setString(filteredPosts[filteredPosts.size()-1].platform + " Age: " +to_string(filteredPosts[filteredPosts.size()-1].audienceAge));
-            Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Age: " + filteredPosts[filteredPosts.size()-2].postContent + " "  +to_string(filteredPosts[filteredPosts.size()-2].audienceAge));
-            Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Age: " + filteredPosts[filteredPosts.size()-3].postContent + " "  +to_string(filteredPosts[filteredPosts.size()-3].audienceAge));
+            } else if (category == "Engagement") {
+                First.setString(filteredPosts[filteredPosts.size()-1].platform +  " Engagement: "  +to_string(filteredPosts[filteredPosts.size()-1].engagementRate));
+                Second.setString(filteredPosts[filteredPosts.size()-2].platform+" Engagement: " +to_string(filteredPosts[filteredPosts.size()-2].engagementRate));
+                Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Engagement: " +to_string(filteredPosts[filteredPosts.size()-3].engagementRate));
 
 
+            } else if (category == "Age") {
+                First.setString(filteredPosts[filteredPosts.size()-1].platform + " Age: " +to_string(filteredPosts[filteredPosts.size()-1].audienceAge));
+                Second.setString(filteredPosts[filteredPosts.size()-2].platform + " Age: " + filteredPosts[filteredPosts.size()-2].postContent + " "  +to_string(filteredPosts[filteredPosts.size()-2].audienceAge));
+                Third.setString(filteredPosts[filteredPosts.size()-3].platform + " Age: " + filteredPosts[filteredPosts.size()-3].postContent + " "  +to_string(filteredPosts[filteredPosts.size()-3].audienceAge));
+
+
+            }
+
+            f.setString(filteredPosts[filteredPosts.size()-1].postID);
+            s.setString(filteredPosts[filteredPosts.size()-2].postID);
+            t.setString( filteredPosts[filteredPosts.size()-3].postID);
+            Gender1.setString("Gender: " + filteredPosts[filteredPosts.size()-1].audienceGender );
+            Gender2.setString("Gender: " +filteredPosts[filteredPosts.size()-2].audienceGender  );
+            Gender3.setString("Gender: " +filteredPosts[filteredPosts.size()-3].audienceGender );
+            Age.setString("Content: "+filteredPosts[filteredPosts.size()-1].postContent);
+            Age2.setString("Content: "+filteredPosts[filteredPosts.size()-2].postContent);
+            Age3.setString("Content: "+filteredPosts[filteredPosts.size()-3].postContent);
+
+
+        };
         }
 
-        f.setString(filteredPosts[filteredPosts.size()-1].postID);
-        s.setString(filteredPosts[filteredPosts.size()-2].postID);
-        t.setString( filteredPosts[filteredPosts.size()-3].postID);
-        Gender1.setString("Gender: " + filteredPosts[filteredPosts.size()-1].audienceGender );
-        Gender2.setString("Gender: " +filteredPosts[filteredPosts.size()-2].audienceGender  );
-        Gender3.setString("Gender: " +filteredPosts[filteredPosts.size()-3].audienceGender );
-        Age.setString("Content: "+filteredPosts[filteredPosts.size()-1].postContent);
-        Age2.setString("Content: "+filteredPosts[filteredPosts.size()-2].postContent);
-        Age3.setString("Content: "+filteredPosts[filteredPosts.size()-3].postContent);
-
-
-    };
 
 
 };

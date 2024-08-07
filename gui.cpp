@@ -142,7 +142,7 @@ void gui::run() {
     std::vector<std::string> option3 = {"Any", "Male", "Female"};
     Dropdown Gender((25), (480 + 60), 175, 50, option3, font, "Gender:");
 
-    std::vector<std::string> option4 = {"Any", "Positive", "Negative", "Neutral"};
+    std::vector<std::string> option4 = {"Any", "Positive", "Negative"};
     Dropdown Opinion((25), (480 + 120), 175, 50, option4, font, "Opinion:");
 
 
@@ -228,6 +228,17 @@ void gui::run() {
                         cout << "1" << theData.vector[theData.vector.size() - 1 - i].audienceGender << endl;
                     }
                 }
+            }
+            if(Random.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                if (event.type == sf::Event::MouseButtonPressed) {
+                    std::random_device rd;
+                    std::mt19937 g(rd());
+
+                    // Shuffle the vector
+                    std::shuffle(theData.vector.begin(), theData.vector.end(), g);
+                    dataChanged = true;
+                }
+
             }
 
             if (dataChanged) {
