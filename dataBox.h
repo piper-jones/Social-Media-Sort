@@ -26,7 +26,7 @@ public:
 
             // Setup first line of text
             text1.setFont(font);
-            text1.setString(post.platform + "      " + post.audienceGender  + "      " + post.sentiment  + "      " + post.postType  + "      " + post.audienceGender);
+            text1.setString(post.platform + "      " + post.audienceGender  + "      " + post.sentiment  + "      " + post.postType  + "      " + post.timeStamp);
             text1.setCharacterSize(15);
             text1.setFillColor(Color::Black);
             text1.setPosition(x + 10, y + 2);
@@ -62,32 +62,30 @@ public:
         rows.clear();
         const int margin = 10;  // Horizontal margin inside the box
         const int verticalPadding = 20;  // Padding at the bottom of the box
-        int count = 0;
         float effectiveHeight = height - verticalPadding;  // Reduce height to include padding
         float rowHeight = (effectiveHeight / 25) - 1;  // Adjust row height to fit within the new effective height
         float currentY = y + 10;  // Start slightly inside to show top border
         float rowWidth = width - 2 * margin;  // Row width adjusted for margins
 
-        int NthPost = theData.size() - 1;
+        std::vector<Post> filteredPosts;
         for (const auto& post : theData) {
             if (post.display) {
-                if (count < 25) {
-                    rows.emplace_back(x + margin, currentY, rowWidth, rowHeight, theData[NthPost], font);
-                    currentY += rowHeight + 1;
-                    count++;
-                }
-                else {
-                    break;
-                }
+                filteredPosts.push_back(post);
             }
-            NthPost--;
+        }
+
+        int count = 0;
+        for (const auto& post : filteredPosts) {
+            if (count < 25) {
+                rows.emplace_back(x + margin, currentY, rowWidth, rowHeight, post, font);
+                currentY += rowHeight + 1;
+                count++;
+            } else {
+                break;  // Exit the loop once you have displayed 25 posts
+            }
         }
 
 
-//        for (int i = 0; i < 25; ++i) {
-//            rows.emplace_back(x + margin, currentY, rowWidth, rowHeight, theData[i], font);
-//            currentY += rowHeight + 1;
-//        }
     }
 
 

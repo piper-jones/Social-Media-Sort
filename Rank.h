@@ -128,6 +128,7 @@ public:
     };
 
     void UpdateRanking(vector<Post> data, string category) {
+        cout << data.size() << endl;
         std::vector<Post> filteredPosts;
         for (const auto& post : data) {
             if (post.display) {
