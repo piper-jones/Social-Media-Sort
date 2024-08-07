@@ -1,5 +1,4 @@
-#ifndef SOCIAL_MEDIA_SORT_POST_H
-#define SOCIAL_MEDIA_SORT_POST_H
+
 
 #pragma once
 #include <iostream>
@@ -49,6 +48,9 @@ public:
 class Sort {
 public:
     vector<Post> vector;
+
+    Sort();
+
     void sortBy(const string& category, std::vector<Post>& vector, bool useMerge);
     //filter types
     bool Platforms = false;
@@ -59,6 +61,7 @@ public:
     map<string, bool> genderOptions = {};
     map<string, bool> sentimentOptions = {};
     //filter functions
+    void setActiveFilter(const string& category, const string& choice);
     void filterOn(string category, string choice);
     void filterHandling();
 
@@ -73,4 +76,3 @@ private:
     int partition(std::vector<Post>& arr, int low, int high, function<bool(const Post&, const Post&)> comp);
 };
 
-#endif //SOCIAL_MEDIA_SORT_POST_H

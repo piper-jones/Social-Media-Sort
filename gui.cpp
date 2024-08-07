@@ -5,8 +5,9 @@
 #include <SFML/Graphics/Color.hpp>
 #include "Dropdown.h"
 #include "dataBox.h"
-#include "Post.h"
+#include "statsBox.h"
 #include "read.h"
+#include "Post.h"
 using namespace sf;
 using namespace std;
 #include <cctype>
@@ -19,6 +20,7 @@ gui::gui(): window(VideoMode(1800, 1200), "Media Mirror") {
     width = 1800;
     height = 1200;
     loadFont();
+    readFile(theData.vector);
     run(); }
 
 
@@ -31,28 +33,33 @@ void gui::loadFont(){
 void gui::setText(){
     mainTitle.setFont(font);
     mainTitle.setString("Media Mirror");
-    mainTitle.setCharacterSize(40);
-    mainTitle.setFillColor(Color::White);
+    mainTitle.setCharacterSize(80);
+    mainTitle.setFillColor(Color::Yellow);
     mainTitle.setStyle(Text::Bold | Text::Underlined);
 
     FloatRect textRect = mainTitle.getLocalBounds();
     mainTitle.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-    mainTitle.setPosition(Vector2f(width / 2.0f, 75.0f));
+    mainTitle.setPosition(Vector2f(width / 2.0f, 50.0f));
 
     dataTitle.setFont(font);
-    dataTitle.setString("Data:");
-    dataTitle.setCharacterSize(20);
+    dataTitle.setString("Social Media Post Data:");
+    dataTitle.setCharacterSize(35);
     dataTitle.setFillColor(Color::White);
     dataTitle.setStyle(Text::Bold);
 
+    FloatRect dataRect = dataTitle.getLocalBounds();
+    dataTitle.setOrigin(dataRect.left + dataRect.width / 2.0f, dataRect.top + dataRect.height / 2.0f);
+    dataTitle.setPosition(Vector2f(485, 140));
+
     statsTitle.setFont(font);
-    statsTitle.setString("Comparison Statistics");
-    statsTitle.setCharacterSize(18);
-    statsTitle.setFillColor(Color::Yellow);
+    statsTitle.setString("Traditional News Source Data:");
+    statsTitle.setCharacterSize(35);
+    statsTitle.setFillColor(Color::White);
     statsTitle.setStyle(Text::Bold);
 
-    positionText(dataTitle, width, height, 75);
-    positionText(statsTitle, width, height, 45);
+    FloatRect statsRect = statsTitle.getLocalBounds();
+    statsTitle.setOrigin(statsRect.left + statsRect.width / 2.0f, statsRect.top + statsRect.height / 2.0f);
+    statsTitle.setPosition(Vector2f(1325, 140));
 }
 void gui::positionText(Text &text, float x, float y, float scale){
     FloatRect textRect = text.getLocalBounds();
@@ -108,40 +115,36 @@ void gui::optionContent() {
     Enter2.setCharacterSize(20);
 }
 
-void gui::run(){
+void gui::run() {
     //Set up Dropdown
-    std::vector<std::string> options = { "Likes", "Comments", "Shares","Impressions", "Reach", "Engagement", "Age" };
+    std::vector<std::string> options = {"Likes", "Comments", "Shares", "Impressions", "Reach", "Engagement", "Age"};
+    Dropdown sorting((25), (height / 4), 175, 50, options, font, "Sort by:");
 
-    Dropdown sorting((25),(height/4), 175, 50,options,font, "Sort by:");
-
-    std::vector<std::string> option2 = {"Any" ,"Linkedin", "Instagram", "Twitter", "Facebook"};
-    Dropdown Platform((25),(height/2.5),175,50,option2,font,"Platform:");
+    std::vector<std::string> option2 = {"Any", "Linkedin", "Instagram", "Twitter", "Facebook"};
+    Dropdown Platform((25), (height / 2.5), 175, 50, option2, font, "Platform:");
 
     std::vector<std::string> option3 = {"Any", "Male", "Female"};
-    Dropdown Gender((25),(480+ 60), 175,50, option3,font , "Gender:");
+    Dropdown Gender((25), (480 + 60), 175, 50, option3, font, "Gender:");
 
     std::vector<std::string> option4 = {"Any", "Positive", "Negative", "Neutral"};
-    Dropdown Opinion((25),(480 + 120), 175,50, option4,font , "Opinion:");
+    Dropdown Opinion((25), (480 + 120), 175, 50, option4, font, "Opinion:");
 
     optionContent();
 
+        //Top 25 posts in vector
+        std::vector<Post> topData;
+        for (int i = 1; i <= 25; ++i) {
+            topData.push_back(theData.vector[i]);
+        }
+        //Bottom 25 posts in vector
+        std::vector<Post> bottomData;
+        for (int i = 25; i >= 1; --i) {
+            bottomData.push_back(theData.vector[theData.vector.size() - 1 - i]);
+        }
 
-
-    std::vector<std::string> words;
-    words.reserve(100);
-    for (int i = 1; i <= 100; ++i) {
-        words.push_back("Word" + std::to_string(i));
-    }
-    // Assuming 'allWords' is your original large vector of strings
-    //vector<string> topWords(allWords.begin(), allWords.begin() + min(100, static_cast<int>(allWords.size())));
-    dataBox rowsOfData(225, 150, 750, 1000, words, font);
-    //make other boxes also 750 to get equal margins
-
-
-    //Initialize Sort and data To be run
-
-    Sort filters;
-    readFile(filters.vector);
+    //Running the data into data box
+    dataBox rowsOfData(225, 160, 750, 1000, theData.vector, font);    //Running the statistics into stats box
+    statsBox comparisonBox(1000, 160, 750, 475, font);
 
 
     while (window.isOpen()) {
@@ -149,72 +152,65 @@ void gui::run(){
         while (window.pollEvent(event)) {
             //press X button in top right-closes program, does not lead to game window
             if (event.type == Event::Closed) {
-                window.close(); }
+                window.close();
+            }
             //Drop Box Detection
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
             sorting.update(mousePos, event);
+            Platform.update(mousePos, event);
+            Gender.update(mousePos, event);
+            Opinion.update(mousePos, event);
 
-            Platform.update(mousePos,event);
-            Gender.update(mousePos,event);
-            Opinion.update(mousePos,event);
-
-            //Submission
-            if(Merge.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            bool dataChanged = false;
+            if (Merge.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 if (event.type == sf::Event::MouseButtonPressed && sorting.getSelectedIndex() >= 0) {
-                    if(Platform.getSelectedIndex() >= 1) {
-                    filters.filterOn("Platform", option2[Platform.getSelectedIndex()]);
+                    cout << "merge button pressed" << endl;
+                    if (Platform.getSelectedIndex() >= 1) {
+                        theData.filterOn("Platform", option2[Platform.getSelectedIndex()]);
+                        cout << "platform filter 1" << endl;
                     }
-                    if(Gender.getSelectedIndex() >= 1) {
-                        filters.filterOn("Gender", option3[Gender.getSelectedIndex()]);
+                    if (Gender.getSelectedIndex() >= 1) {
+                        theData.filterOn("Gender", option3[Gender.getSelectedIndex()]);
+                        cout << "gender filter 2" << endl;
                     }
-                    if(Opinion.getSelectedIndex() >= 1) {
-                        filters.filterOn("Sentiment", option4[Opinion.getSelectedIndex()]);
+                    if (Opinion.getSelectedIndex() >= 1) {
+                        theData.filterOn("Sentiment", option4[Opinion.getSelectedIndex()]);
+                        cout << "sentiment filter 3" << endl;
                     }
-                    filters.sortBy(options[sorting.getSelectedIndex()], filters.vector, true);
+                    theData.sortBy(options[sorting.getSelectedIndex()], theData.vector, true);
+                    dataChanged = true;
+                    for (int i = 5; i >= 1; --i) {
+                        cout << "1" << theData.vector[theData.vector.size() - 1 - i].likes << endl;
+                    }
                 }
             }
-            if(Quick.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-                if (event.type == sf::Event::MouseButtonPressed  && sorting.getSelectedIndex() >= 1) {
-                    if(Platform.getSelectedIndex() >= 1) {
-                        filters.filterOn("Platform", option2[Platform.getSelectedIndex()]);
+            if (Quick.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                if (event.type == sf::Event::MouseButtonPressed && sorting.getSelectedIndex() >= 1) {
+                    cout << "quick button pressed" << endl;
+                    if (Platform.getSelectedIndex() >= 1) {
+                        theData.setActiveFilter("Platform", option2[Platform.getSelectedIndex()]);
+                        cout << "platform filter 2" << endl;
                     }
-                    if(Gender.getSelectedIndex() >= 1) {
-                        filters.filterOn("Gender", option3[Gender.getSelectedIndex()]);
+                    if (Gender.getSelectedIndex() >= 1) {
+                        theData.setActiveFilter("Gender", option3[Gender.getSelectedIndex()]);
+                        cout << "gender filter 2" << endl;
                     }
-                    if(Opinion.getSelectedIndex() >= 1) {
-                        filters.filterOn("Sentiment", option4[Opinion.getSelectedIndex()]);
+                    if (Opinion.getSelectedIndex() >= 1) {
+                        theData.setActiveFilter("Sentiment", option4[Opinion.getSelectedIndex()]);
+                        cout << "sentiment filter 2" << endl;
                     }
-                    filters.sortBy(options[sorting.getSelectedIndex()], filters.vector, false);
+                    theData.filterHandling();
+                    theData.sortBy(options[sorting.getSelectedIndex()], theData.vector, false);
+                    dataChanged = true;
+                    for (int i = 5; i >= 1; --i) {
+                        cout << "1" << theData.vector[theData.vector.size() - 1 - i].audienceGender << endl;
+                    }
                 }
             }
 
-            /*if (event.type == Event::TextEntered) {
-                redraw = true;
-                // Only letters
-                if (65 <= event.text.unicode && event.text.unicode <= 90
-                    || 97 <= event.text.unicode && event.text.unicode <= 120) {
-                    if (displayName.empty()) { //changes first to uppercase
-                        displayName += toupper(static_cast<char>(event.text.unicode)); }
-                    else if (!displayName.empty() && displayName.size() < 10) { //changes the rest to lowercase
-                        displayName += tolower(static_cast<char>(event.text.unicode)); }
-                }
-                    // Backspace
-                else if (event.text.unicode == 8) {
-                    if (!displayName.empty()) {
-                        displayName.pop_back();} }
-                    //Enter key-continues to Game window
-                else if (event.text.unicode == 13) {
-                    finalUserName = displayName;
-                    if (!displayName.empty()) {
-                        welcome.close();
-                    }
-                    Enter = true;
-                }
-            }*/
-
-
-            rowsOfData.handleEvent(event);  // Pass events to dataBox for scroll handling
-        }
+            if (dataChanged) {
+                rowsOfData.updateData(theData.vector);
+            }
 
             window.clear(Color::Blue);
             setText();
@@ -228,41 +224,13 @@ void gui::run(){
             sorting.draw(window);
 
 
-
-
             rowsOfData.draw(window);
+            comparisonBox.draw(window);
 
             window.display();
+        }
     }
+
 }
 
 
-
-
-
-//Filters plan
-/*
-if filter button clicked && false
-    check and make sure all filters in that category are false
-       set corresponding category and choice bool to TRUE
-if filter button clicked && true
-        set category and choice bool to FALSE
-
-run filterHandling();
-*/
-
-
-/*
- * if one of sort categories is picked:
- *
- * run sortBy function
- * run filter handling function
- * refresh gui
- *
- *
- * always preset to merge sort
- */
-
-
-//if merge sort or quick sort clicked : reset bool, but sorting only runs from cateogories
-//show time next to button when the program runs:

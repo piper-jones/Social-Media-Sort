@@ -13,26 +13,36 @@ class dataBox {
 public:
     struct Row {
         RectangleShape box;
-        Text text;
+        Text text1;
+        Text text2;
 
         // Constructor for Row
-        Row(float x, float y, float width, float height, const string& textContent, Font& font) {
+        Row(float x, float y, float width, float height, const Post& post, Font& font) {
             box.setPosition(x, y);
             box.setSize(Vector2f(width, height));
             box.setFillColor(Color::White);
             box.setOutlineThickness(1);
             box.setOutlineColor(Color::Black);
 
-            text.setFont(font);
-            text.setString(textContent);
-            text.setCharacterSize(15);
-            text.setFillColor(Color::Black);
-            text.setPosition(x + 10, y + 5);
+            // Setup first line of text
+            text1.setFont(font);
+            text1.setString(post.platform + "      " + post.audienceGender  + "      " + post.sentiment  + "      " + post.postType  + "      " + post.audienceGender);
+            text1.setCharacterSize(15);
+            text1.setFillColor(Color::Black);
+            text1.setPosition(x + 10, y + 2);
+
+             //Setup second line of text
+            text2.setFont(font);
+            text2.setString("Post Content:  " + post.postContent);
+            text2.setCharacterSize(15);
+            text2.setFillColor(Color::Blue);
+            text2.setPosition(x + 10, y + 19);
         }
 
         void draw(RenderWindow& window) {
             window.draw(box);
-            window.draw(text);
+            window.draw(text1);
+            window.draw(text2);
         }
     };
 
@@ -40,66 +50,78 @@ public:
 
 
     // Corrected Constructor with initializer list
-    dataBox(float x, float y, float width, float height, const vector<string>& theData, Font& font)
-            : x(x), y(y), width(width), height(height), theData(theData), font(font) {
+    dataBox(float x, float y, float width, float height, vector<Post>& initData, Font& font)
+            : x(x), y(y), width(width), height(height), theData(initData), font(font) {
         background.setPosition(x, y);
-        background.setSize(Vector2f(width, height)); // Adjust height based on number of rows
+        background.setSize(Vector2f(width, height));
         background.setFillColor(Color::Red);
-
-        populateRows();
+        populateRows();  // Populate rows on initialization
     }
 
     void populateRows() {
+        rows.clear();
         const int margin = 10;  // Horizontal margin inside the box
         const int verticalPadding = 20;  // Padding at the bottom of the box
-        int numRows = min(100, int(theData.size()));  // Limit the number of rows
+        int count = 0;
         float effectiveHeight = height - verticalPadding;  // Reduce height to include padding
-        float rowHeight = (effectiveHeight / 20) - 1;  // Adjust row height to fit within the new effective height
-
+        float rowHeight = (effectiveHeight / 25) - 1;  // Adjust row height to fit within the new effective height
         float currentY = y + 10;  // Start slightly inside to show top border
         float rowWidth = width - 2 * margin;  // Row width adjusted for margins
 
-        for (int i = 0; i < numRows; ++i) {
-            string displayText = "Post #" + to_string(i + 1) + ": " + theData[i];
-            rows.emplace_back(x + margin, currentY, rowWidth, rowHeight, displayText, font);
-            currentY += rowHeight + 1;  // Move to the next row, adding a small gap between rows
-        }
-    }
-
-
-    int scrollOffset = 0;
-
-//very flawed attempt to make them scroll, we can revisit later
-    void handleEvent(const sf::Event& event) {
-        if (event.type == sf::Event::MouseWheelScrolled) {
-            int rowHeightInt = static_cast<int>(rowHeight); // Ensure rowHeight is treated as int for calculations
-
-            // Calculate the scroll delta using int type explicitly
-            int scrollDelta = static_cast<int>(event.mouseWheelScroll.delta * rowHeightInt);
-
-            if (event.mouseWheelScroll.delta > 0) { // Scrolling up
-                scrollOffset = std::max(0, scrollOffset - scrollDelta);
-            } else { // Scrolling down
-                int maxOffset = std::max(0, static_cast<int>(rows.size()) * rowHeightInt - static_cast<int>(background.getSize().y));
-                scrollOffset = std::min(maxOffset, scrollOffset - scrollDelta);
+        int NthPost = theData.size() - 1;
+        for (const auto& post : theData) {
+            if (post.display) {
+                if (count < 25) {
+                    rows.emplace_back(x + margin, currentY, rowWidth, rowHeight, theData[NthPost], font);
+                    currentY += rowHeight + 1;
+                    count++;
+                }
+                else {
+                    break;
+                }
             }
+            NthPost--;
         }
+
+
+//        for (int i = 0; i < 25; ++i) {
+//            rows.emplace_back(x + margin, currentY, rowWidth, rowHeight, theData[i], font);
+//            currentY += rowHeight + 1;
+//        }
     }
 
-    float effectiveHeight = height - 20;  // Reduce height to include padding
-    float rowHeight = (effectiveHeight / 20) - 1;
 
-    void draw(sf::RenderWindow& window) {
+
+
+    void draw(RenderWindow& window) {
         window.draw(background);
-        for (size_t i = scrollOffset; i < rows.size() && (i - scrollOffset) * rowHeight < background.getSize().y; i++) {
-            rows[i].draw(window);
+        for (auto& row : rows) {
+            row.draw(window);
         }
     }
+
+    void updateData(const vector<Post>& newData) {
+        cout << "update data" << endl;
+        theData = newData; // Assume this is a mutable vector for now
+        populateRows(); // Refresh the rows with the new data
+    }
+
+    void clearRows() {
+        cout << "clear rows" << endl;
+        rows.clear();
+    }
+
+    void refreshDisplay() {
+        clearRows();
+        populateRows();
+    }
+
 
 private:
     RectangleShape background;
     vector<Row> rows;
-    const vector<string>& theData; // Now a reference
+    vector<Post>& theData; // Now a reference
     Font& font;
     float x, y, width, height;
+    string currentSortAttribute;
 };
