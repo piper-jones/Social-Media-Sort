@@ -55,6 +55,7 @@ void Sort::filterOn(string category, string choice){
                 post.display = false;
         }
     }
+
 }
 
 void Sort::filterHandling(){

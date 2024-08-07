@@ -30,6 +30,8 @@ private:
     RectangleShape Options;
     RectangleShape Merge;
     RectangleShape Quick;
+    RectangleShape Random;
+    Text Randomizer;
     void setOption();
     void drawBoxes();
     void optionContent();

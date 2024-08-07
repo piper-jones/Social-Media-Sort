@@ -3,7 +3,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
-#include "Post.h" // Ensure this is correctly implemented
+#include "Post.h"
 using namespace sf;
 using namespace std;
 #include <cctype>

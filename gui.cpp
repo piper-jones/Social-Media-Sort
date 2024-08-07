@@ -1,5 +1,7 @@
 #include "gui.h"
 #include <iostream>
+#include <algorithm>  // For std::shuffle
+#include <random>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
@@ -7,6 +9,7 @@
 #include "dataBox.h"
 #include "Post.h"
 #include "read.h"
+#include "Rank.h"
 using namespace sf;
 using namespace std;
 #include <cctype>
@@ -84,6 +87,9 @@ void gui::drawBoxes() {
     window.draw(Enter1);
     window.draw(Quick);
     window.draw(Enter2);
+    window.draw(Random);
+    window.draw(Randomizer);
+
 }
 
 void gui::optionContent() {
@@ -106,6 +112,16 @@ void gui::optionContent() {
     Enter2.setPosition((60),(860));
     Enter2.setFillColor(Color::Black);
     Enter2.setCharacterSize(20);
+
+    Random.setSize(sf::Vector2f(175,50));
+    Random.setPosition(25,920);
+    Random.setFillColor(Color::Black);
+
+    Randomizer.setString("Randomize");
+    Randomizer.setFont(font);
+    Randomizer.setPosition(60,920);
+    Randomizer.setFillColor(Color::White);
+    Randomizer.setCharacterSize(20);
 }
 
 void gui::run(){
@@ -139,9 +155,13 @@ void gui::run(){
 
 
     //Initialize Sort and data To be run
-
     Sort filters;
     readFile(filters.vector);
+    //Ranking Box
+    string Top = "Top 3 Posts";
+    Rank rank(1000,650,750,475, Top,font);
+
+    filters.sortBy("Likes", filters.vector, true);
 
 
     while (window.isOpen()) {
@@ -161,16 +181,22 @@ void gui::run(){
             //Submission
             if(Merge.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 if (event.type == sf::Event::MouseButtonPressed && sorting.getSelectedIndex() >= 0) {
+
                     if(Platform.getSelectedIndex() >= 1) {
                     filters.filterOn("Platform", option2[Platform.getSelectedIndex()]);
                     }
+
                     if(Gender.getSelectedIndex() >= 1) {
                         filters.filterOn("Gender", option3[Gender.getSelectedIndex()]);
                     }
+
                     if(Opinion.getSelectedIndex() >= 1) {
                         filters.filterOn("Sentiment", option4[Opinion.getSelectedIndex()]);
                     }
+
                     filters.sortBy(options[sorting.getSelectedIndex()], filters.vector, true);
+                    rank.UpdateRanking(filters.vector, options[sorting.getSelectedIndex()]);
+
                 }
             }
             if(Quick.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
@@ -178,14 +204,32 @@ void gui::run(){
                     if(Platform.getSelectedIndex() >= 1) {
                         filters.filterOn("Platform", option2[Platform.getSelectedIndex()]);
                     }
+                    else {
+                        filters.filterHandling();
+                    }
                     if(Gender.getSelectedIndex() >= 1) {
                         filters.filterOn("Gender", option3[Gender.getSelectedIndex()]);
+                    }
+                    else {
+                        filters.filterHandling();
                     }
                     if(Opinion.getSelectedIndex() >= 1) {
                         filters.filterOn("Sentiment", option4[Opinion.getSelectedIndex()]);
                     }
+                    else {
+                        filters.filterHandling();
+                    }
                     filters.sortBy(options[sorting.getSelectedIndex()], filters.vector, false);
+                    rank.UpdateRanking(filters.vector, options[sorting.getSelectedIndex()]);
                 }
+            }
+
+            if(Random.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                std::random_device rd;
+                std::mt19937 g(rd());
+
+                // Shuffle the vector
+                std::shuffle(filters.vector.begin(), filters.vector.end(), g);
             }
 
             /*if (event.type == Event::TextEntered) {
@@ -229,7 +273,7 @@ void gui::run(){
 
 
 
-
+            rank.Draw(window);
             rowsOfData.draw(window);
 
             window.display();
