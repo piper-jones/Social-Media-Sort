@@ -12,6 +12,7 @@ public:
     void run();
     bool redraw = true;
     Sort theData;
+    string timeTaken;
 
 private:
     RenderWindow window;
@@ -20,6 +21,7 @@ private:
     Text mainTitle;
     Text dataTitle;
     Text statsTitle;
+    Text timeTitle;
     Text topResultstitle;
     Text Enter1;
     Text Enter2;

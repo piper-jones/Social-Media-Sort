@@ -17,6 +17,7 @@
 using namespace sf;
 using namespace std;
 #include <cctype>
+#include <chrono>
 
 
 gui::gui(): window(VideoMode(1800, 1200), "Media Mirror") {
@@ -55,14 +56,23 @@ void gui::setText(){
     dataTitle.setPosition(Vector2f(485, 140));
 
     statsTitle.setFont(font);
-    statsTitle.setString("Traditional News Source Data:");
-    statsTitle.setCharacterSize(35);
+    statsTitle.setString("Filters");
+    statsTitle.setCharacterSize(20);
     statsTitle.setFillColor(Color::White);
-    statsTitle.setStyle(Text::Bold);
 
     FloatRect statsRect = statsTitle.getLocalBounds();
     statsTitle.setOrigin(statsRect.left + statsRect.width / 2.0f, statsRect.top + statsRect.height / 2.0f);
-    statsTitle.setPosition(Vector2f(1325, 140));
+    statsTitle.setPosition(Vector2f(110, 210));
+
+    timeTitle.setFont(font);
+    timeTitle.setString(timeTaken);
+    timeTitle.setCharacterSize(30);
+    timeTitle.setFillColor(Color::Green);
+    dataTitle.setStyle(Text::Bold);
+
+    FloatRect timeRect = timeTitle.getLocalBounds();
+    timeTitle.setOrigin(timeRect.left + timeRect.width / 2.0f, timeRect.top + timeRect.height / 2.0f);
+    timeTitle.setPosition(Vector2f(1380, 300));
 }
 void gui::positionText(Text &text, float x, float y, float scale){
     FloatRect textRect = text.getLocalBounds();
@@ -74,6 +84,7 @@ void gui::drawText(){
     window.draw(mainTitle);
     window.draw(dataTitle);
     window.draw(statsTitle);
+    window.draw(timeTitle);
 };
 
 void gui::setOption() {
@@ -148,7 +159,7 @@ void gui::run() {
 
     //Ranking Box
     string Top = "Top 3 Posts";
-    Rank rank(1000,650,750,475, Top,font);
+    Rank rank(1000,400,750,475, Top,font);
 
     optionContent();
 
@@ -165,7 +176,7 @@ void gui::run() {
 
     //Running the data into data box
     dataBox rowsOfData(225, 160, 750, 1000, theData.vector, font);    //Running the statistics into stats box
-    statsBox comparisonBox(1000, 160, 750, 475, font);
+    //statsBox comparisonBox(1000, 160, 750, 475, font);
 
 
     while (window.isOpen()) {
@@ -198,7 +209,11 @@ void gui::run() {
                         theData.filterOn("Sentiment", option4[Opinion.getSelectedIndex()]);
                         cout << "sentiment filter 3" << endl;
                     }
+                    auto start = std::chrono::high_resolution_clock::now();
                     theData.sortBy(options[sorting.getSelectedIndex()], theData.vector, true);
+                    auto stop = std::chrono::high_resolution_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+                    timeTaken = "Time taken by function: " + std::to_string(duration.count()) + " milliseconds";
                     dataChanged = true;
                     rank.UpdateRanking(theData.vector,options[sorting.getSelectedIndex()]);
                     for (int i = 5; i >= 1; --i) {
@@ -222,7 +237,11 @@ void gui::run() {
                         cout << "sentiment filter 2" << endl;
                     }
                     theData.filterHandling();
+                    auto start = std::chrono::high_resolution_clock::now();
                     theData.sortBy(options[sorting.getSelectedIndex()], theData.vector, false);
+                    auto stop = std::chrono::high_resolution_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+                    timeTaken = "Time taken by function: " + std::to_string(duration.count()) + " milliseconds";
                     dataChanged = true;
                     for (int i = 5; i >= 1; --i) {
                         cout << "1" << theData.vector[theData.vector.size() - 1 - i].audienceGender << endl;
@@ -247,7 +266,7 @@ void gui::run() {
 
             rank.Draw(window);
             rowsOfData.draw(window);
-            comparisonBox.draw(window);
+            //comparisonBox.draw(window);
 
             window.display();
         }

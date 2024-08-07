@@ -9,8 +9,6 @@ using namespace std;
 #include <cctype>
 
 
-#ifndef SOCIAL_MEDIA_SORT_RANK_H
-#define SOCIAL_MEDIA_SORT_RANK_H
 class Rank {
 private:
     RectangleShape Outer;
@@ -200,5 +198,3 @@ public:
 
 
 
-
-#endif //SOCIAL_MEDIA_SORT_RANK_H
