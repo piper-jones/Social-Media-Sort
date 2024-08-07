@@ -36,53 +36,72 @@ Post::Post(string platform, string postID, string postType, string postContent,
 
 
 
-void Sort::filterOn(string category, string choice){
-    if (category == "Platform"){
-        for (Post post: vector) {
-            if (post.platform != choice)
-                post.display = false;
+void Sort::setActiveFilter(const string& category, const string& choice) {
+    if (category == "Platform") {
+        // Reset all platform filters
+        for (auto& pair : platformOptions) {
+            pair.second = false;
         }
-    }
-    if (category == "Gender"){
-        for (Post post: vector) {
-            if (post.audienceGender != choice)
-                post.display = false;
+        // Activate the selected platform filter
+        platformOptions[choice] = true;
+        Platforms = true; // Indicate that at least one platform filter is active
+    } else if (category == "Gender") {
+        for (auto& pair : genderOptions) {
+            pair.second = false;
         }
-    }
-    if (category == "Sentiment"){
-        for (Post post: vector) {
-            if (post.sentiment != choice)
-                post.display = false;
+        genderOptions[choice] = true;
+        Gender = true; // Indicate that at least one gender filter is active
+    } else if (category == "Sentiment") {
+        for (auto& pair : sentimentOptions) {
+            pair.second = false;
         }
+        sentimentOptions[choice] = true;
+        Sentiment = true; // Indicate that at least one sentiment filter is active
     }
+
+    filterHandling(); // Apply filters after setting the new active filter
 
 }
 
-void Sort::filterHandling(){
-    //set all display true
-    for (Post post: vector)
-        post.display = true;
+void Sort::filterHandling() {
+    for (Post& post : vector) {
+        post.display = true;  // Reset display status before applying filters
+    }
 
-    //check what filters are on and if they are, turn them on
     if (Platforms) {
         for (const auto& pair : platformOptions) {
-            if (pair.second)
+            if (pair.second) {
                 filterOn("Platform", pair.first);
+            }
         }
     }
     if (Gender) {
         for (const auto& pair : genderOptions) {
-            if (pair.second)
+            if (pair.second) {
                 filterOn("Gender", pair.first);
+            }
         }
     }
     if (Sentiment) {
         for (const auto& pair : sentimentOptions) {
-            if (pair.second)
+            if (pair.second) {
                 filterOn("Sentiment", pair.first);
+            }
         }
     }
 }
+
+void Sort::filterOn(string category, string choice) {
+    for (Post& post : vector) {
+        if ((category == "Platform" && post.platform != choice) ||
+            (category == "Gender" && post.audienceGender != choice) ||
+            (category == "Sentiment" && post.sentiment != choice)) {
+            post.display = false;
+        }
+    }
+}
+
+Sort::Sort(){}
 
 // takes in the category, data, and which sort to use (if bool is true, use merge)
 void Sort::sortBy(const string &category, std::vector<Post> &vector, bool useMerge) {

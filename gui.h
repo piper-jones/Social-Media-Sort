@@ -2,6 +2,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "Post.h"
 using namespace sf;
 using namespace std;
 
@@ -10,6 +11,7 @@ public:
     gui();
     void run();
     bool redraw = true;
+    Sort theData;
 
 private:
     RenderWindow window;
