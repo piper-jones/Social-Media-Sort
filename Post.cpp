@@ -58,7 +58,9 @@ void Sort::setActiveFilter(const string& category, const string& choice) {
         sentimentOptions[choice] = true;
         Sentiment = true; // Indicate that at least one sentiment filter is active
     }
+
     filterHandling(); // Apply filters after setting the new active filter
+
 }
 
 void Sort::filterHandling() {
