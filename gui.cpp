@@ -18,9 +18,6 @@ using namespace sf;
 using namespace std;
 #include <cctype>
 
-struct Response {
-    std::string category;
-};
 
 gui::gui(): window(VideoMode(1800, 1200), "Media Mirror") {
     width = 1800;
@@ -148,45 +145,27 @@ void gui::run() {
     std::vector<std::string> option4 = {"Any", "Positive", "Negative", "Neutral"};
     Dropdown Opinion((25), (480 + 120), 175, 50, option4, font, "Opinion:");
 
-    optionContent();
 
-        //Top 25 posts in vector
-        std::vector<Post> topData;
-        for (int i = 1; i <= 25; ++i) {
-            topData.push_back(theData.vector[i]);
-        }
-        //Bottom 25 posts in vector
-        std::vector<Post> bottomData;
-        for (int i = 25; i >= 1; --i) {
-            bottomData.push_back(theData.vector[theData.vector.size() - 1 - i]);
-        }
-
-
-
-    std::vector<std::string> words;
-    words.reserve(100);
-    for (int i = 1; i <= 100; ++i) {
-        words.push_back("Word" + std::to_string(i));
-    }
-    // Assuming 'allWords' is your original large vector of strings
-    //vector<string> topWords(allWords.begin(), allWords.begin() + min(100, static_cast<int>(allWords.size())));
-    dataBox rowsOfData(225, 150, 750, 1000, words, font);
-    //make other boxes also 750 to get equal margins
-
-
-    //Initialize Sort and data To be run
-    Sort filters;
-    readFile(filters.vector);
     //Ranking Box
     string Top = "Top 3 Posts";
     Rank rank(1000,650,750,475, Top,font);
 
-    filters.sortBy("Likes", filters.vector, true);
+    optionContent();
+
+    //Top 25 posts in vector
+    std::vector<Post> topData;
+    for (int i = 1; i <= 25; ++i) {
+        topData.push_back(theData.vector[i]);
+    }
+    //Bottom 25 posts in vector
+    std::vector<Post> bottomData;
+    for (int i = 25; i >= 1; --i) {
+        bottomData.push_back(theData.vector[theData.vector.size() - 1 - i]);
+    }
 
     //Running the data into data box
     dataBox rowsOfData(225, 160, 750, 1000, theData.vector, font);    //Running the statistics into stats box
     statsBox comparisonBox(1000, 160, 750, 475, font);
-
 
 
     while (window.isOpen()) {
@@ -206,24 +185,6 @@ void gui::run() {
             bool dataChanged = false;
             if (Merge.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 if (event.type == sf::Event::MouseButtonPressed && sorting.getSelectedIndex() >= 0) {
-
-
-                    if(Platform.getSelectedIndex() >= 1) {
-                    filters.filterOn("Platform", option2[Platform.getSelectedIndex()]);
-                    }
-
-                    if(Gender.getSelectedIndex() >= 1) {
-                        filters.filterOn("Gender", option3[Gender.getSelectedIndex()]);
-                    }
-
-                    if(Opinion.getSelectedIndex() >= 1) {
-                        filters.filterOn("Sentiment", option4[Opinion.getSelectedIndex()]);
-                    }
-
-                    filters.sortBy(options[sorting.getSelectedIndex()], filters.vector, true);
-                    rank.UpdateRanking(filters.vector, options[sorting.getSelectedIndex()]);
-
-
                     cout << "merge button pressed" << endl;
                     if (Platform.getSelectedIndex() >= 1) {
                         theData.filterOn("Platform", option2[Platform.getSelectedIndex()]);
@@ -239,10 +200,10 @@ void gui::run() {
                     }
                     theData.sortBy(options[sorting.getSelectedIndex()], theData.vector, true);
                     dataChanged = true;
+                    rank.UpdateRanking(theData.vector,options[sorting.getSelectedIndex()]);
                     for (int i = 5; i >= 1; --i) {
                         cout << "1" << theData.vector[theData.vector.size() - 1 - i].likes << endl;
                     }
-
                 }
             }
             if (Quick.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
@@ -252,55 +213,6 @@ void gui::run() {
                         theData.setActiveFilter("Platform", option2[Platform.getSelectedIndex()]);
                         cout << "platform filter 2" << endl;
                     }
-
-                    else {
-                        filters.filterHandling();
-                    }
-                    if(Gender.getSelectedIndex() >= 1) {
-                        filters.filterOn("Gender", option3[Gender.getSelectedIndex()]);
-                    }
-                    else {
-                        filters.filterHandling();
-                    }
-                    if(Opinion.getSelectedIndex() >= 1) {
-                        filters.filterOn("Sentiment", option4[Opinion.getSelectedIndex()]);
-                    }
-                    else {
-                        filters.filterHandling();
-                    }
-                    filters.sortBy(options[sorting.getSelectedIndex()], filters.vector, false);
-                    rank.UpdateRanking(filters.vector, options[sorting.getSelectedIndex()]);
-                }
-            }
-
-            if(Random.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-                std::random_device rd;
-                std::mt19937 g(rd());
-
-                // Shuffle the vector
-                std::shuffle(filters.vector.begin(), filters.vector.end(), g);
-            }
-
-            /*if (event.type == Event::TextEntered) {
-                redraw = true;
-                // Only letters
-                if (65 <= event.text.unicode && event.text.unicode <= 90
-                    || 97 <= event.text.unicode && event.text.unicode <= 120) {
-                    if (displayName.empty()) { //changes first to uppercase
-                        displayName += toupper(static_cast<char>(event.text.unicode)); }
-                    else if (!displayName.empty() && displayName.size() < 10) { //changes the rest to lowercase
-                        displayName += tolower(static_cast<char>(event.text.unicode)); }
-                }
-                    // Backspace
-                else if (event.text.unicode == 8) {
-                    if (!displayName.empty()) {
-                        displayName.pop_back();} }
-                    //Enter key-continues to Game window
-                else if (event.text.unicode == 13) {
-                    finalUserName = displayName;
-                    if (!displayName.empty()) {
-                        welcome.close();
-
                     if (Gender.getSelectedIndex() >= 1) {
                         theData.setActiveFilter("Gender", option3[Gender.getSelectedIndex()]);
                         cout << "gender filter 2" << endl;
@@ -314,7 +226,6 @@ void gui::run() {
                     dataChanged = true;
                     for (int i = 5; i >= 1; --i) {
                         cout << "1" << theData.vector[theData.vector.size() - 1 - i].audienceGender << endl;
-
                     }
                 }
             }
@@ -334,10 +245,7 @@ void gui::run() {
             Platform.draw(window);
             sorting.draw(window);
 
-
-
             rank.Draw(window);
-
             rowsOfData.draw(window);
             comparisonBox.draw(window);
 
@@ -346,5 +254,4 @@ void gui::run() {
     }
 
 }
-
 
